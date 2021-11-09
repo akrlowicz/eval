@@ -1,8 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from sklearn.model_selection import cross_val_score, classification_report
-from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score, classification_report
 
 
 def compare_classifiers(model_list, X_train, y_train):
