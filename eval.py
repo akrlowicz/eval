@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score, classification_report
+from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix
 
 
 def compare_classifiers(model_list, X_train, y_train):
@@ -38,7 +38,7 @@ def compare_classifiers(model_list, X_train, y_train):
     plt.show()
     
     
-def evaluate_model(model, X_train, y_train, X_test, y_test):
+def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
     
     print(f'\n-----------------------{model.__class__.__name__}-----------------------')
     
@@ -51,10 +51,10 @@ def evaluate_model(model, X_train, y_train, X_test, y_test):
     print(f'Accuracy: {accuracy_score(y_train, y_pred_train):.4f}')
 
     print('Test')
-    print(classification_report(y_test, y_pred_test, target_names=['Persistent', 'Non-Persistent']))
+    print(classification_report(y_test, y_pred_test, target_names=target_names))
 
     print('Confusion matrix')
-    plot_confusion_matrix(model, X_test, y_test, normalize="true", display_labels=['Persistent', 'Non-Persistent'])
+    plot_confusion_matrix(model, X_test, y_test, normalize="true", display_labels=target_names)
     plt.grid(False) # sns override the grid
     plt.show()
     
