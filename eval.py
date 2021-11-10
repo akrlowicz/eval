@@ -70,7 +70,7 @@ def exhaustive_search(model, parameters, X_train, y_train):
                   error_score = 0.0)
 
 
-  %time cv.fit(X_train, y_train)
+  cv.fit(X_train, y_train)
 
   print("Best estimator found by grid search:")
   print(cv.best_estimator_)
