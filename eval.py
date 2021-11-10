@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from sklearn.model_selection import cross_val_score
+from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix
 
 
@@ -58,4 +58,20 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
     plt.grid(False) # sns override the grid
     plt.show()
     
+
+def exhaustive_search(model, parameters, X_train, y_train):
+
+  
+  cv = GridSearchCV(model,
+                  param_grid = parameters,
+                  cv = 5,
+                  scoring = 'accuracy',
+                  n_jobs = -1,
+                  error_score = 0.0)
+
+
+  %time cv.fit(X_train, y_train)
+
+  print("Best estimator found by grid search:")
+  print(cv.best_estimator_)
     
