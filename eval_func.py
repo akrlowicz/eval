@@ -127,5 +127,5 @@ def significance_test(model, X_train, y_train):
                           estimator2=model,
                           X=X_train, y=y_train,
                           random_seed=123)
-    print(f't statistic: {t:.3f}')
-    print(f'p value: {p:.3f}')
+    print(f't statistic: {t:.5f}')
+    print(f'p value: {p:.5f}')
