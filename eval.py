@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import time
 from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix
+from sklearn.dummy import DummyClassifier
 
 
 def compare_classifiers(model_list, X_train, y_train):
@@ -59,12 +60,19 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
     plt.show()
     
 
-def exhaustive_search(model, parameters, X_train, y_train):
+def run_dummy(X_train, y_train, X_test, y_test):
+  dummy = DummyClassifier()
+  dummy.fit(X_train, y_train)
+  print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
+
+
+
+def exhaustive_search(model, parameters, X_train, y_train, cv=5):
 
   
   cv = GridSearchCV(model,
                   param_grid = parameters,
-                  cv = 5,
+                  cv = cv,
                   scoring = 'accuracy',
                   n_jobs = -1,
                   error_score = 0.0)
