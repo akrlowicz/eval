@@ -79,10 +79,8 @@ def exhaustive_search(model, parameters, X_train, y_train, cv=5):
   print(cv.best_estimator_)
     
 
+def check_dummy(X_train, y_train, X_test, y_test):
+    dummy = DummyClassifier()
+    dummy.fit(X_train, y_train)
+    print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
 
-
-def run_dummy(X_train, y_train, X_test, y_test):
-  
-  dummy = DummyClassifier()
-  dummy.fit(X_train, y_train)
-  print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
