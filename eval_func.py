@@ -65,10 +65,10 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
 
 
 
-def exhaustive_search(model, parameters, X_train, y_train, cv=5):
+def exhaustive_search(model, X_train, y_train, parameters, cv=5):
 
   
-  cv = GridSearchCV(model,
+  searched = GridSearchCV(model,
                   param_grid = parameters,
                   cv = cv,
                   scoring = 'accuracy',
@@ -76,15 +76,21 @@ def exhaustive_search(model, parameters, X_train, y_train, cv=5):
                   error_score = 0.0)
 
 
-  cv.fit(X_train, y_train)
+  searched.fit(X_train, y_train)
 
-  print("Best estimator found by grid search:")
-  print(cv.best_estimator_)
+  estimator = searched.best_estimator_
+  print("Best classifier found by Randomized Search")
+  print(estimator)
+
+
+  cv = pd.DataFrame(searched.cv_results_)
+
+  return estimator, cv
     
 
 
 
-def hyperparameter_tuning(model, X_train, y_train, param_grid,cv=5, n_iter=100):
+def hyperparameter_tuning(model, X_train, y_train, param_grid, cv=5, n_iter=100):
   
   searched = RandomizedSearchCV(model,
                     param_distributions = param_grid,
