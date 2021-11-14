@@ -58,13 +58,7 @@ def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
     plot_confusion_matrix(model, X_test, y_test, normalize="true", display_labels=target_names)
     plt.grid(False) # sns override the grid
     plt.show()
-    
-
-def run_dummy(X_train, y_train, X_test, y_test):
-
-    dummy = DummyClassifier()
-    dummy.fit(X_train, y_train)
-    print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
+   
 
 
 
@@ -84,3 +78,10 @@ def exhaustive_search(model, parameters, X_train, y_train, cv=5):
   print("Best estimator found by grid search:")
   print(cv.best_estimator_)
     
+
+
+
+def run_dummy(X_train, y_train, X_test, y_test):
+    dummy = DummyClassifier()
+    dummy.fit(X_train, y_train)
+    print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
