@@ -1,7 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from sklearn.model_selection import cross_val_score, GridSearchCV
+import pandas as pd
+from sklearn.model_selection import cross_val_score, GridSearchCV, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix
 from sklearn.dummy import DummyClassifier
 from mlxtend.evaluate import paired_ttest_5x2cv
@@ -82,13 +83,37 @@ def exhaustive_search(model, parameters, X_train, y_train, cv=5):
     
 
 
+
+def hyperparameter_tuning(model, X_train, y_train, param_grid,cv=5, n_iter=100):
+  
+  searched = RandomizedSearchCV(model,
+                    param_distributions = param_grid,
+                    n_iter = n_iter,
+                    cv = cv,
+                    scoring = 'accuracy',
+                    n_jobs = -1,
+                    error_score = 0.0)
+
+  searched.fit(X_train, y_train)
+  estimator = searched.best_estimator_
+  print("Best classifier found by Randomized Search")
+  print(estimator)
+
+
+  cv = pd.DataFrame(searched.cv_results_)
+
+  return estimator, cv
+
+
+
+
 # significance threshold of α=0.05 for rejecting the null hypothesis
 # that both algorithms perform equally well on the dataset
 # if p > α, null hypothesis cannot be rejected
 # if p < α, null hypothesis can be rejected, significant difference
 
 
-def run_dummy(model, X_train, y_train):
+def significance_test(model, X_train, y_train):
 
     dummy = DummyClassifier(strategy='most_frequent', random_state=123)
     dummy.fit(X_train, y_train)
