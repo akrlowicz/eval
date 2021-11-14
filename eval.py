@@ -4,6 +4,8 @@ import time
 from sklearn.model_selection import cross_val_score, GridSearchCV
 from sklearn.metrics import accuracy_score, classification_report, plot_confusion_matrix
 from sklearn.dummy import DummyClassifier
+from mlxtend.evaluate import paired_ttest_5x2cv
+
 
 
 def compare_classifiers(model_list, X_train, y_train):
@@ -79,8 +81,20 @@ def exhaustive_search(model, parameters, X_train, y_train, cv=5):
   print(cv.best_estimator_)
     
 
-def check_dummy(X_train, y_train, X_test, y_test):
-    dummy = DummyClassifier()
-    dummy.fit(X_train, y_train)
-    print(f"Dummy accuracy: {dummy.score(X_test, y_test):.2f}")
 
+# significance threshold of α=0.05 for rejecting the null hypothesis
+# that both algorithms perform equally well on the dataset
+# if p > α, null hypothesis cannot be rejected
+# if p < α, null hypothesis can be rejected, significant difference
+
+
+def run_dummy(model, X_train, y_train):
+
+    dummy = DummyClassifier(strategy='most_frequent', random_state=123)
+    dummy.fit(X_train, y_train)
+    t, p = paired_ttest_5x2cv(estimator1=dummy,
+                          estimator2=model,
+                          X=X_train, y=y_train,
+                          random_seed=123)
+    print(f't statistic: {t:.3f}')
+    print(f'p value: {p:.3f}')
