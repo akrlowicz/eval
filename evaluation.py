@@ -43,6 +43,8 @@ def compare_classifiers(model_list, X_train, y_train, filename=None):
     	plt.savefig(filename)
   
     plt.show()
+
+    return training_times, mean_avg
     
     
 def evaluate_model(model, X_train, y_train, X_test, y_test, target_names=None):
