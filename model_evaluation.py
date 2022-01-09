@@ -15,11 +15,10 @@ from yellowbrick.classifier import ConfusionMatrix
 
 
 def run_cv(model, X_train, y_train, name=None):
-    matthews_scorer = make_scorer(cohen_kappa_score)
-
+    
     # run 5-fold CV for each model and get training time
     start_time = time.time()
-    scores = cross_val_score(model, X_train, y_train, cv=5, scoring=cohen_kappa_score)
+    scores = cross_val_score(model, X_train, y_train, cv=5, scoring='f1_weighted')
     end_time = time.time()
 
     training_time = end_time - start_time
@@ -29,8 +28,8 @@ def run_cv(model, X_train, y_train, name=None):
         print(model.__class__.__name__)
     else:
         print(name)
-    print(f'Mean accuracy: {scores.mean():.4f}')
-    print(f'Std accuracy: {scores.std():.4f}')
+    print(f'Mean weighted F1-score: {scores.mean():.4f}')
+    print(f'Std Deviation: {scores.std():.4f}')
     print(f'Training Time: {training_time:,.4f} seconds')
 
     return scores, training_time
