@@ -28,9 +28,9 @@ def run_cv(model, X_train, y_train, name=None):
     print(model.__class__.__name__)
   else:
     print(name)
-  print(f'Mean accuracy: {scores.mean():.4f}')
-  print(f'Std accuracy: {scores.std():.4f}')
-  print(f'Training Time: {training_time:,.4f} seconds')
+  print(f'Mean weighted F1-score: {scores.mean():.4f}')
+  print(f'Std deviation of F1-scores: {scores.std():.4f}')
+  print(f'Time for 5 Cross-Validations: {training_time:,.4f} seconds')
 
   return scores, training_time
 
