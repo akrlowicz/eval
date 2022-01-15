@@ -50,7 +50,7 @@ def multiple_mcnemar(model_name_list, preds_array, y, sig_level):
 
     q, p_value = cochrans_q(y_true,*converted_pred_array)
 
-    significance = p_value >= sig_level
+    significance = p_value < sig_level
 
     scientific_notation="{:.2e}".format(p_value)
 
@@ -69,7 +69,7 @@ def multiple_mcnemar(model_name_list, preds_array, y, sig_level):
     for key, value in mctable.items():
         chi2, p = mcnemar(ary=value, corrected=True)
         first_model, second_model = model_compare(key, model_name_list)
-        reject_null = p >= sig_level
+        reject_null = p < sig_level
 
         pairwise_table.add_row([first_model, second_model, chi2, p, reject_null])
 
